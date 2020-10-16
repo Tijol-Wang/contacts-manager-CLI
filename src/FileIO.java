@@ -2,7 +2,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class FileIO {
@@ -39,15 +41,20 @@ public class FileIO {
         }
     }
 
-    public static void deleteLine(Path filePath, String line) throws IOException{
+    public static void deleteLine(Path filePath, String line) throws IOException {
         List<String> fileContents = Files.readAllLines(filePath);
         List<String> modifiedList = new ArrayList<>(); // cleared it out
-        for (String item: fileContents) {
+        for (String item : fileContents) {
             // TODO: I want to remove bread from the list
-            if(!item.equals("bread")) {
+            if (!item.equals(line)) {
                 modifiedList.add(item);
             }
         }
         Files.write(filePath, modifiedList);
+    }
+
+    public static void addLine(Path dataFilePath, String str, long num) throws IOException {
+        // Append to the file. StandardOpenOption.APPEND will prevent overwriting
+        Files.write(dataFilePath, Arrays.asList(str + num), StandardOpenOption.APPEND);
     }
 }

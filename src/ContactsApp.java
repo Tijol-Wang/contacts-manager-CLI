@@ -7,10 +7,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ContactsApp {
-
+    static Input input = new Input();
+    static String fileName = "contacts.txt";
 
     public static void main(String[] args) {
-        String fileName = "contacts.txt";
         Contact Jack = new Contact("Jack Black", 1231231234);
         Contact Sara = new Contact("Sara Tee", 1231231233);
         Contact Rose = new Contact("Rose Titanic", 1231231232);
@@ -25,7 +25,7 @@ public class ContactsApp {
 
             // Let's read our file
             // Now, let's refactor the loop above
-            FileIO.printFileContents(dataFilePath);
+//            FileIO.printFileContents(dataFilePath);
 
             // Append to the file. StandardOpenOption.APPEND will prevent overwriting
 //            Files.write(dataFilePath, Arrays.asList("cereal", "bread"), StandardOpenOption.APPEND);
@@ -46,10 +46,40 @@ public class ContactsApp {
 //            System.out.println("After empty");
 //            FileIO.printFileContents(dataFilePath);
 
+            displayMenu();
         } catch (IOException ex) {
             System.out.println("Cannot create file");
             ex.printStackTrace();
         }
+
+    }
+
+    public static void displayMenu() throws IOException {
+        Path dataFilePath = FileIO.createDirectoryAndFile(fileName);
+        int userChoice;
+        do {
+            System.out.println("\n1. View contacts.\n" +
+                    "2. Add a new contact.\n" +
+                    "3. Search a contact by name.\n" +
+                    "4. Delete an existing contact.\n" +
+                    "5. Exit.\n" +
+                    "Enter an option (1, 2, 3, 4 or 5):");
+            userChoice = input.getInt(1, 5);
+            switch (userChoice) {
+                case 1 -> FileIO.printFileContents(dataFilePath);
+                case 2 -> addContact();
+                case 3 -> System.out.println("3");
+                case 4 -> FileIO.deleteLine(dataFilePath, "lucy234567890");
+                case 5 -> System.out.println("Bye, have a nice day!");
+            }
+        } while (!(userChoice == 5));
+    }
+
+    public static void addContact() throws IOException {
+        Path dataFilePath = FileIO.createDirectoryAndFile(fileName);
+        String name = input.getString("Enter contact name: ");
+        long num = input.getLong("Enter contact number: ");
+        FileIO.addLine(dataFilePath, name, num);
     }
 }
 
