@@ -15,7 +15,7 @@ public class Contact {
         return this.name;
     }
 
-    public long getNumber() {
+    public long getNum() {
         return this.number;
     }
 
@@ -27,4 +27,6 @@ public class Contact {
     public void setNumber(long number) {
         this.number = number;
     }
+
+
 }
