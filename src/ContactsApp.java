@@ -9,20 +9,29 @@ import java.util.List;
 public class ContactsApp {
     static Input input = new Input();
     static String fileName = "contacts.txt";
+    static List<Contact> contacts = new ArrayList<>();
 
     public static void main(String[] args) {
         Contact Jack = new Contact("Jack Black", 1231231234);
         Contact Sara = new Contact("Sara Tee", 1231231233);
         Contact Rose = new Contact("Rose Titanic", 1231231232);
         Contact Li = new Contact("Li Wha", 1231231237);
+        contacts.add(Jack);
+        contacts.add(Sara);
+        contacts.add(Rose);
+        contacts.add(Li);
 
         try {
             Path dataFilePath = FileIO.createDirectoryAndFile(fileName);
 
             // Let's write to our file
-            List<String> contactList = Arrays.asList(Jack.getName() + " " + Jack.getNum(), Sara.getName(), "bacon");
-            Files.write(dataFilePath, contactList);
+//            List<String> contactList = Arrays.asList(Jack.getName() + " " + Jack.getNum(), Sara.getName(), "bacon");
+//            Files.write(dataFilePath, contactList);
+            List<String> contactInfo = new ArrayList<>();
+            for (Contact a: contacts)
+                contactInfo.add(a.getName() + a.getNum());
 
+            Files.write(dataFilePath, contactInfo);
             // Let's read our file
             // Now, let's refactor the loop above
 //            FileIO.printFileContents(dataFilePath);
@@ -47,6 +56,7 @@ public class ContactsApp {
 //            FileIO.printFileContents(dataFilePath);
 
             displayMenu();
+            Files.write(dataFilePath, contactInfo);
         } catch (IOException ex) {
             System.out.println("Cannot create file");
             ex.printStackTrace();
@@ -79,6 +89,8 @@ public class ContactsApp {
         Path dataFilePath = FileIO.createDirectoryAndFile(fileName);
         String name = input.getString("Enter contact name: ");
         long num = input.getLong("Enter contact number: ");
+        Contact a = new Contact(name, num);
+        contacts.add(a);
         FileIO.addLine(dataFilePath, name, num);
     }
 }

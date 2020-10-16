@@ -57,4 +57,14 @@ public class FileIO {
         // Append to the file. StandardOpenOption.APPEND will prevent overwriting
         Files.write(dataFilePath, Arrays.asList(str + num), StandardOpenOption.APPEND);
     }
+
+    public static void rewriteFile(Path dataFilePath) throws IOException {
+        List<String> fileContents = Files.readAllLines(dataFilePath);
+        List<String> modifiedList = new ArrayList<>();
+        for (String item : fileContents) {
+            modifiedList.add(item);
+        }
+        Files.write(dataFilePath, modifiedList);
+    }
 }
+
