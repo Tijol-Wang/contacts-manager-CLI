@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -16,7 +17,6 @@ public class ContactsApp {
         try {
             Path dataFilePath = FileIO.createDirectoryAndFile(fileName);
 
-            // Let's write to our file
 //            List<String> contactList = Arrays.asList(Jack.getName() + " " + Jack.getNum(), Sara.getName(), "bacon");
 //            Files.write(dataFilePath, contactList);
 //            List<String> contactInfo = new ArrayList<>();
@@ -24,8 +24,6 @@ public class ContactsApp {
 //                contactInfo.add(a.getName() + a.getNum());
 //
 //            Files.write(dataFilePath, contactInfo);
-            // Let's read our file
-            // Now, let's refactor the loop above
             FileIO.printFileContents(dataFilePath);
 
             // Append to the file. StandardOpenOption.APPEND will prevent overwriting
@@ -80,10 +78,18 @@ public class ContactsApp {
     public static void addContact() throws IOException {
         Path dataFilePath = FileIO.createDirectoryAndFile(fileName);
         String name = input.getString("Enter contact name: ");
-        long num = input.getLong("Enter contact number: ");
-        Contact a = new Contact(name, num);
-        contacts.add(a);
-        FileIO.addLine(dataFilePath, name, num);
+        // check if it already exists
+        /* if(exists) {overwrite?}
+        answer
+        if(answer == yes) {updateLine()}
+        if(no) {sout("ok... add another one?")
+                if(yes) {addContact()}
+                if(no) displayMenu();}
+        * */
+        FileIO.verifyUserInput(dataFilePath, name);
+
+//        Contact a = new Contact(name, num);
+//        contacts.add(a);
     }
 
     public static void deleteContact() throws IOException{
