@@ -41,16 +41,16 @@ public class FileIO {
         }
     }
 
-    public static void deleteLine(Path filePath, String line) throws IOException {
-        List<String> fileContents = Files.readAllLines(filePath);
+    public static void deleteLine(Path datafilePath, String line) throws IOException {
+        List<String> fileContents = Files.readAllLines(datafilePath);
         List<String> modifiedList = new ArrayList<>(); // cleared it out
         for (String item : fileContents) {
             // TODO: I want to remove bread from the list
-            if (!item.equals(line)) {
+            if (!item.startsWith(line)) {
                 modifiedList.add(item);
             }
         }
-        Files.write(filePath, modifiedList);
+        Files.write(datafilePath, modifiedList);
     }
 
     public static void addLine(Path dataFilePath, String str, long num) throws IOException {
