@@ -12,14 +12,6 @@ public class ContactsApp {
     static List<Contact> contacts = new ArrayList<>();
 
     public static void main(String[] args) {
-        Contact Jack = new Contact("Jack Black", 1231231234);
-        Contact Sara = new Contact("Sara Tee", 1231231233);
-        Contact Rose = new Contact("Rose Titanic", 1231231232);
-        Contact Li = new Contact("Li Wha", 1231231237);
-        contacts.add(Jack);
-        contacts.add(Sara);
-        contacts.add(Rose);
-        contacts.add(Li);
 
         try {
             Path dataFilePath = FileIO.createDirectoryAndFile(fileName);
@@ -27,14 +19,14 @@ public class ContactsApp {
             // Let's write to our file
 //            List<String> contactList = Arrays.asList(Jack.getName() + " " + Jack.getNum(), Sara.getName(), "bacon");
 //            Files.write(dataFilePath, contactList);
-            List<String> contactInfo = new ArrayList<>();
-            for (Contact a: contacts)
-                contactInfo.add(a.getName() + a.getNum());
-
-            Files.write(dataFilePath, contactInfo);
+//            List<String> contactInfo = new ArrayList<>();
+//            for (Contact a: contacts)
+//                contactInfo.add(a.getName() + a.getNum());
+//
+//            Files.write(dataFilePath, contactInfo);
             // Let's read our file
             // Now, let's refactor the loop above
-//            FileIO.printFileContents(dataFilePath);
+            FileIO.printFileContents(dataFilePath);
 
             // Append to the file. StandardOpenOption.APPEND will prevent overwriting
 //            Files.write(dataFilePath, Arrays.asList("cereal", "bread"), StandardOpenOption.APPEND);
@@ -56,7 +48,7 @@ public class ContactsApp {
 //            FileIO.printFileContents(dataFilePath);
 
             displayMenu();
-            Files.write(dataFilePath, contactInfo);
+            //Files.write(dataFilePath, contactInfo);
         } catch (IOException ex) {
             System.out.println("Cannot create file");
             ex.printStackTrace();
@@ -72,14 +64,14 @@ public class ContactsApp {
                     "2. Add a new contact.\n" +
                     "3. Search a contact by name.\n" +
                     "4. Delete an existing contact.\n" +
-                    "5. Exit.\n" +
-                    "Enter an option (1, 2, 3, 4 or 5):");
+                    "5. Exit.\n"
+                    );
             userChoice = input.getInt(1, 5);
             switch (userChoice) {
                 case 1 -> FileIO.printFileContents(dataFilePath);
                 case 2 -> addContact();
                 case 3 -> System.out.println("3");
-                case 4 -> FileIO.deleteLine(dataFilePath, "lucy234567890");
+                case 4 -> deleteContact();
                 case 5 -> System.out.println("Bye, have a nice day!");
             }
         } while (!(userChoice == 5));
@@ -92,6 +84,12 @@ public class ContactsApp {
         Contact a = new Contact(name, num);
         contacts.add(a);
         FileIO.addLine(dataFilePath, name, num);
+    }
+
+    public static void deleteContact() throws IOException{
+        Path dataFilePath = FileIO.createDirectoryAndFile(fileName);
+        String name = input.getString("Who would you like to remove?");
+        FileIO.deleteLine(dataFilePath, name);
     }
 }
 
