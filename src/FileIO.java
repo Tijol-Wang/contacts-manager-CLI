@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class FileIO {
+    static Input input = new Input();
     public static Path createDirectoryAndFile(String fileName) throws IOException {
         Path dataFilePath = Paths.get(fileName);
 
@@ -41,14 +42,40 @@ public class FileIO {
         }
     }
 
+    public static List<String> searchLine(Path filePath, String newValue) throws IOException {
+        List<String> fileContents = Files.readAllLines(filePath);
+        List<String> modifiedList = new ArrayList<>();
+        for (String item : fileContents) {
+            // TODO: Add my modified item
+            if (item.startsWith(newValue)) {
+                modifiedList.add(item);
+            }
+        }
+        if (modifiedList.isEmpty()) {
+            System.out.println("Sorry, can't find anyone with that name");
+        } else {
+            System.out.println("Search results:");
+            for (String item : modifiedList){
+                System.out.println(item);
+            }
+        }
+        return modifiedList;
+    }
     public static void deleteLine(Path datafilePath, String line) throws IOException {
         List<String> fileContents = Files.readAllLines(datafilePath);
         List<String> modifiedList = new ArrayList<>(); // cleared it out
-        for (String item : fileContents) {
-            // TODO: I want to remove bread from the list
-            if (!item.startsWith(line)) {
-                modifiedList.add(item);
-            }
+//        for (String item : fileContents) {
+//            // TODO: I want to remove bread from the list
+//            if (!item.startsWith(line)) {
+//                modifiedList.add(item);
+//            }
+//        }
+        List<String> searchResults = searchLine(datafilePath, line);
+        if (searchResults.size() > 1){
+            String specificName = input.getString("Found multiple moms. Who would do you want to dismiss?");
+            deleteLine(datafilePath, specificName);
+        } else {
+            // if it does NOT contain, do not add to modifiedList
         }
         Files.write(datafilePath, modifiedList);
     }
