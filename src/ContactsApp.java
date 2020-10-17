@@ -70,7 +70,7 @@ public class ContactsApp {
             switch (userChoice) {
                 case 1 -> FileIO.printFileContents(dataFilePath);
                 case 2 -> addContact();
-                case 3 -> System.out.println("3");
+                case 3 -> searchContact();
                 case 4 -> deleteContact();
                 case 5 -> System.out.println("Bye, have a nice day!");
             }
@@ -90,6 +90,12 @@ public class ContactsApp {
         Path dataFilePath = FileIO.createDirectoryAndFile(fileName);
         String name = input.getString("Who would you like to remove?");
         FileIO.deleteLine(dataFilePath, name);
+    }
+
+    public static void searchContact() throws IOException{
+        Path dataFilePath = FileIO.createDirectoryAndFile(fileName);
+        String name = input.getString("Who is your mother?");
+        FileIO.searchLine(dataFilePath, name);
     }
 }
 
