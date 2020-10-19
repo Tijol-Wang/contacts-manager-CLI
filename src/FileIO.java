@@ -23,18 +23,20 @@ public class FileIO {
         System.out.println();
         List<String> fileContents = Files.readAllLines(filePath);
         System.out.println(
-                "-----------------------------------------\n" +
-                "      Name       |    Phone number      |\n" +
-                "-----------------------------------------");
+                "+------------------+----------------------+\n" +
+                "|      Name        |    Phone number      |\n" +
+                "+------------------+----------------------+");
+
         for (int i = 0; i < fileContents.size(); i++) {
-            System.out.printf("%s%n", fileContents.get(i));
+            System.out.printf("| %s%n", fileContents.get(i));
         }
-        System.out.println("-----------------------------------------");
+        System.out.println("+-----------------------------------------+");
     }
 
     public static void verifyUserInput(Path filePath, String newValue) throws IOException {
         List<String> fileContents = Files.readAllLines(filePath);
         List<String> newList = new ArrayList<>();
+
         for (String item : fileContents) {
             if (item.contains(newValue)) {
                 newList.add(item);
@@ -47,7 +49,7 @@ public class FileIO {
             System.out.println(newValue + " already exists.");
             boolean userChoice = input.yesNo("Do you want to overwrite it? (Yes/No): ");
             if (userChoice) {
-                long newNum = input.getLong("Enter the new number for " + newValue + ":");
+                long newNum = input.getLong("Enter the new number for " + newValue + ": ");
                 // verify duplicate phone# method
                 String newNumStr = formatter(newValue, newNum);
                 updateLine(filePath, newList.get(0), newNumStr);
@@ -64,6 +66,7 @@ public class FileIO {
     public static void updateLine(Path filePath, String oldValue, String newValue) throws IOException {
         List<String> fileContents = Files.readAllLines(filePath);
         List<String> modifiedList = new ArrayList<>();
+
         for (String item : fileContents) {
             if (item.equals(oldValue)) {
                 modifiedList.add(newValue);
@@ -77,23 +80,24 @@ public class FileIO {
     public static List<String> searchLine(Path filePath, String newValue) throws IOException {
         List<String> fileContents = Files.readAllLines(filePath);
         List<String> modifiedList = new ArrayList<>();
+
         for (String item : fileContents) {
             if (item.contains(newValue)) {
                 modifiedList.add(item);
             }
         }
         if (modifiedList.isEmpty()) {
-            System.out.println("Sorry, can't find anyone with that name");
+            System.out.println("Sorry, can't find anyone with that name.");
         } else {
             System.out.println("Results:");
             System.out.println(
-                    "-----------------------------------------\n" +
-                            "      Name       |    Phone number      |\n" +
-                            "-----------------------------------------");
+                            "+----------------+----------------------+\n" +
+                            "|     Name       |    Phone number      |\n" +
+                            "+---------------------------------------+");
             for (String item : modifiedList) {
                 System.out.println(item);
             }
-            System.out.println("-----------------------------------------\n");
+            System.out.println("+---------------------------------------+\n");
         }
         return modifiedList;
     }
@@ -102,8 +106,9 @@ public class FileIO {
         List<String> fileContents = Files.readAllLines(datafilePath);
         List<String> modifiedList = new ArrayList<>(); // cleared it out
         List<String> searchResults = searchLine(datafilePath, line);
+
         if (searchResults.size() > 1) {
-            String specificName = input.getString("Found multiple contacts. Which one do you want to delete?");
+            String specificName = input.getString("Found multiple contacts. Which one do you want to delete?: ");
             deleteLine(datafilePath, specificName);
         } else { // size ==1 || 0
             for (String item : fileContents) {
@@ -125,6 +130,7 @@ public class FileIO {
     public static String formatter(String name, long num) {
         int length = Long.toString(num).length();
         String numStr;
+
         if (length < 8) {
             numStr = String.valueOf(num).replaceFirst("(\\d{3})(\\d+)", "$1-$2");
         } else if (length < 11) {

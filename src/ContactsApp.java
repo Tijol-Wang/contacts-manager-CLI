@@ -76,13 +76,13 @@ public class ContactsApp {
 
     public static void deleteContact() throws IOException{
         Path dataFilePath = FileIO.createDirectoryAndFile(fileName);
-        String name = input.getString("Who would you like to remove?");
+        String name = input.getString("Who would you like to remove?: ");
         FileIO.deleteLine(dataFilePath, name);
     }
 
     public static void searchContact() throws IOException{
         Path dataFilePath = FileIO.createDirectoryAndFile(fileName);
-        String name = input.getString("Who would you like to search?");
+        String name = input.getString("Who would you like to search?: ");
         FileIO.searchLine(dataFilePath, name);
     }
 }
