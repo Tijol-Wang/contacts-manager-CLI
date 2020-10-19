@@ -24,9 +24,7 @@ public class ContactsApp {
                 " \\/  \\/  \\___||_| \\___|\\___/ |_| |_| |_| \\___|(_)"
 
                                                                  );
-
         try {
-            // Welcome message
 
             displayMenu();
 
