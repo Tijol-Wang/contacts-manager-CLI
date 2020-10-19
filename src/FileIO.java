@@ -48,6 +48,7 @@ public class FileIO {
             boolean userChoice = input.yesNo("Do you want to overwrite it? (Yes/No): ");
             if (userChoice) {
                 long newNum = input.getLong("Enter the new number for " + newValue + ":");
+                // verify duplicate phone# method
                 String newNumStr = formatter(newValue, newNum);
                 updateLine(filePath, newList.get(0), newNumStr);
             } else {
@@ -64,11 +65,9 @@ public class FileIO {
         List<String> fileContents = Files.readAllLines(filePath);
         List<String> modifiedList = new ArrayList<>();
         for (String item : fileContents) {
-            // TODO: Add my modified item
             if (item.equals(oldValue)) {
                 modifiedList.add(newValue);
             } else {
-                // TODO: Add the existing item bec it isn't what we want to replace.
                 modifiedList.add(item);
             }
             Files.write(filePath, modifiedList);
@@ -87,9 +86,14 @@ public class FileIO {
             System.out.println("Sorry, can't find anyone with that name");
         } else {
             System.out.println("Results:");
+            System.out.println(
+                    "-----------------------------------------\n" +
+                            "      Name       |    Phone number      |\n" +
+                            "-----------------------------------------");
             for (String item : modifiedList) {
                 System.out.println(item);
             }
+            System.out.println("-----------------------------------------\n");
         }
         return modifiedList;
     }
@@ -99,7 +103,7 @@ public class FileIO {
         List<String> modifiedList = new ArrayList<>(); // cleared it out
         List<String> searchResults = searchLine(datafilePath, line);
         if (searchResults.size() > 1) {
-            String specificName = input.getString("Found multiple results. Who would do you want to delete?");
+            String specificName = input.getString("Found multiple contacts. Which one do you want to delete?");
             deleteLine(datafilePath, specificName);
         } else { // size ==1 || 0
             for (String item : fileContents) {
@@ -108,12 +112,14 @@ public class FileIO {
                 }
             }
             Files.write(datafilePath, modifiedList);
+            System.out.println(line + " is successfully deleted!");
         }
     }
 
     public static void addLine(Path dataFilePath, String str, long num) throws IOException {
         String newContact = formatter(str,num);
         Files.write(dataFilePath, Arrays.asList(newContact), StandardOpenOption.APPEND);
+        System.out.println(str + " has been successfully added!");
     }
 
     public static String formatter(String name, long num) {
